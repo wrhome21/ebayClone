@@ -1,0 +1,84 @@
+<div class="row-fluid">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            
+            <div class="panel-body">
+
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="col-lg-5">
+
+                            <div id="myCarousel" class="carousel slide">
+                                <!-- Carousel items -->
+                                <div class="carousel-inner">
+                                    <div class="item" ng-class="{active:!$index}" ng-repeat="imgId in listing.imageIds">
+                                        <a ng-click="displayGallery(listing.imageIds)">
+                                            <div class="row text-center">
+                                                <!-- ITEM-->
+                                                <div class="span3">
+                                                    <div class="thumbnail product-item">
+                                                        <img ng-src="/listingImage/{{imgId}}">
+                                                    </div>
+                                                </div>
+                                                <!-- ITEM-->
+                                            </div>
+                                        </a>
+                                        <h5 class='text-center'> {{$index+1}} of {{listing.imageIds.length}}</h5>
+                                    </div>
+                                    <gallery data="imageIds"></gallery>
+                                </div>
+                                <!-- /INNER-->
+                                    <div ng-if='listing.imageIds.length > 1'>
+                                        <!-- Carousel nav -->
+                                        <a class="carousel-control left" href="#myCarousel" target="_self" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                                        <a class="carousel-control right" href="#myCarousel" target="_self" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="col-lg-5">
+                            <p class="listing-title">{{listing.title}}</p>
+                            <p>{{ listing.description }}</p>
+                            <p>
+                                Buy it Now Price: Only <span class="listing-price">{{ listing.buyItNowPrice | currency }}</span>!
+                            </p>
+                            <p>
+                                Minimum Bid: <span class="listing-minbid">{{ listing.minBid | currency }}</span>
+                            </p>
+                            <p>
+                                Current Max Bid: <span class="listing-maxbid">{{listing.maxBid | currency}}</span>
+                            </p>
+                            <p>
+                                Sale Ends: {{ listing.endDate | date:"M/dd/yyyy h:mm a"}}
+                            </p>
+                            <p>
+                                Being sold by
+                                <a ng-click="displaySeller(listing.user.userName)">
+                            {{ listing.user.firstName }} {{ listing.user.lastName }}
+                            <img ng-if="listing.user.userImageId" ng-src="/userImage/{{ listing.user.userName }}" width="40px;" alt="Seller Avatar" class="img-circle" />
+                        </a>
+                            </p>
+
+                                                <seller-info ng-if="seller" info="seller"></seller-info>
+
+
+                        </div>
+                   
+                       <div class="col-lg-2">
+                            <a ng-if="currentUser.userName != listing.user.userName" href='#/purchase/{{listing.listingId}}' class="btn btn-primary btn-block"> <i class="fa fa-check"></i> &nbsp; Buy It Now!</a>
+                            <a ng-if="currentUser.userName === listing.user.userName" ng-click="uploadListingFiles(listing.listingId)" class='btn btn-success btn-outline btn-block'>Upload Images</a>
+                            <button ng-if="listing.minBid && currentUser.userName != listing.user.userName" class="btn btn-default btn-block" ng-click="makeBid(listing)">Bid</a></button>
+                            <a ng-if="currentUser.userName === listing.user.userName" href="#/updateListing/{{listing.listingId}}" class='btn btn-success btn-outline btn-block'>Update Listing</a>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="col-lg-12 text-center">
+                            <a href="/#/">[ Return to Listings ]</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<bid-modal listing="bidListing"></bid-modal>

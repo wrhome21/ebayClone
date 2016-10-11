@@ -1,0 +1,204 @@
+<div class="row-fluid">
+    <div class="col-lg-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Purchase
+            </div>
+            <div class="panel-body">
+
+                <div class="container-fluid">
+                    <div class="row-fluid">
+
+                        <div class="col-lg-10">
+
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a id="detailsTab" href="#details" data-toggle="tab" target="_self">Details</a>
+                                </li>
+                                <li><a href="#billing" id="billingTab" data-toggle="tab" target="_self">Billing Info</a>
+                                </li>
+                                <li><a href="#shipping" id="shippingTab" data-toggle="tab" target="_self">Shipping Info</a>
+                                </li>
+                                <li><a href="#summary" id="summaryTab" data-toggle="tab" target="_self">Summary</a>
+                                </li>
+                            </ul>
+
+                            <gallery data="imageIds"></gallery>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="details">
+
+                                    <div class="container-fluid">
+                                        <div class="row-fluid">
+                                            <div class="col-lg-6">
+                                                <a ng-click="displayGallery(listing.imageIds)">
+                                                    <img ng-if="listing.imageIds && listing.imageIds.length" ng-src="/listingImage/{{listing.imageIds[0]}}" />
+                                                </a>
+                                                <h5 class='text-center' ng-if="listing.imageIds && listing.imageIds.length"> 1 of {{listing.imageIds.length}}</h5>
+                                                <span ng-if="!listing.imageIds || listing.imageIds.length === 0">
+                                                    No image to display    
+                                                </span>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <h4>{{ listing.title }}</h4>
+                                                <p>{{ listing.description }}</p>
+                                                <!-- Charge Summary -->
+                                                <div class="well" style="display: inline-block; padding: 8px;">
+                                                    <table style="min-width: 500px;">
+                                                        <tbody>
+                                                            <tr ng-repeat="item in billingDetails">
+                                                                <td style="min-width: 70%;">
+                                                                    {{ item.description }}
+                                                                    <sup ng-if="item.prompt">[<a ng-click="item.prompt.click()">{{ item.prompt.text}}</a>]</sup>
+                                                                </td>
+                                                                <td style="min-width: 30%;" class="text-right">{{ item.amount | currency }}</td>
+                                                            </tr>
+                                                            <tr class="strong">
+                                                                <td>Total</td>
+                                                                <td class="text-right">{{ sumBillingDetails(billingDetails) | currency }}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- /Charge Summary -->
+                                                <p>
+                                                    Being sold by
+                                                    <a ng-click="displaySeller(listing.user.userName)">
+                                                        {{ buildUserName(listing.user) }}
+                                                        <img ng-if="listing.user.userImageId" ng-src="/userImage/{{listing.user.userName}}" alt="Seller Avatar" width="40px;" class="img-circle" />
+                                                    </a>
+                                                </p>
+
+                                                <seller-info ng-if="seller" info="seller"></seller-info>
+
+                                                <p ng-if="listing.endDate">Sale ends {{ listing.endDate | date:"M/dd/yyyy h:mm a" }}</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="billing">
+
+                                    <div class="container-fluid">
+                                        <div class="row-fluid">
+                                            <payment-info info="purchase"></payment-info>
+                                        </div>
+
+                                        <div class="form-group row-fluid">
+                                            <label>Billing Address</label>
+                                            <div>
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input ng-model="useShippingAddress" type="checkbox" value="">Use Shipping Address
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <address ng-if="useShippingAddress === false" address="purchase.billing"></address>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="shipping">
+                                    <div class="container-fluid">
+                                        <div class="form-group row-fluid">
+                                            <label>Ship To</label>
+                                            <input type="text" class="form-control" id="shipTo" ng-model="purchase.shipping.name" />
+                                        </div>
+                                        <div class="form-group row-fluid">
+                                            <label>Shipping Address</label>
+                                            <div>
+                                                <address address="purchase.shipping"></address>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="summary">
+                                    <div class="container-fluid">
+                                        <div class="row-fluid">
+                                            <div class="col-lg-4">
+                                                <a ng-click="displayGallery(listing.imageIds)">
+                                                    <img ng-if="listing.imageIds && listing.imageIds.length" ng-src="/listingImage/{{listing.imageIds[0]}}" />
+                                                </a>
+                                                <h5 class='text-center' ng-if="listing.imageIds && listing.imageIds.length"> 1 of {{listing.imageIds.length}}</h5>
+                                                <img ng-if="!listing.imageIds || !listing.imageIds.length" ng-src="/images/noPicture.png" />
+                                            </div>
+                                            <div class="col-lg-5">
+
+                                                <p>
+                                                    {{ listing.title }}
+                                                </p>
+                                                <p>
+                                                    Purchase Price: {{ listing.buyItNowPrice | currency }}
+                                                </p>
+                                                <p>
+                                                    Total with Tax & Fees: {{ purchase.amount | currency }}
+                                                </p>
+                                                <p>
+                                                    Shipping To:<br/>
+                                                    {{ purchase.shipping.name }}<br />
+                                                    {{ purchase.shipping.street1 }}<br />
+                                                    <span ng-if="purchase.shipping.street2">{{ purchase.shipping.street2 }}</span><br ng-if="purchase.shipping.street2" />
+                                                    {{ purchase.shipping.city }}, {{ purchase.shipping.state }} {{ purchase.shipping.zipCode }}
+                                                </p>
+                                                <p>
+                                                    Billing Info:<br/>
+                                                    {{ purchase.billing.name }}<br />
+                                                    {{ purchase.creditCardNumber }} {{ purchase.creditCardType }}<br />
+                                                    {{ purchase.billing.street1 }}<br />
+                                                    <span ng-if="purchase.billing.street2">{{ purchase.billing.street2 }}</span><br ng-if="purchase.billing.street2" />
+                                                    {{ purchase.billing.city }}, {{ purchase.billing.state }} {{ purchase.billing.zipCode }}
+                                                </p>  
+                                            </div>   
+                                            <div class="col-lg-3">
+                                                <button ng-if="!listing.sold" ng-click="submitPurchase()" class="btn btn-success"><i class="fa fa-fw fa-check"></i> &nbsp;Purchase {{ listing.title }}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- tabs section -->
+
+                        <div class="col-lg-2 text-center">
+                            <button id="nextButton" class="btn btn-primary btn-block" ng-click="moveNext()">Next</button>
+                            <br/>
+                            <small><a ng-click="discourageQuit()">[ I changed my mind ]</a></small>
+                        </div>
+                        <!-- Nav section -->
+
+                    </div>
+                    <!-- /row-fluid -->
+                </div>
+                <!-- /container-fluid -->
+            </div>
+            <!-- /panel-body -->
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="purchaseModelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="purchaseModelLabel">{{ alert.title }}</h4>
+            </div>
+            <div class="modal-body">
+                {{alert.text }}
+            </div>
+            <div class="modal-footer">
+                <button ng-repeat="dismiss in alert.dismissals" type="button" class="btn btn-default" data-dismiss="modal">{{ dismiss }}</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

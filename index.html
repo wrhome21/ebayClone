@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="SSA Boot Camp Instagram Clone Exercise">
+    <meta name="author" content="Chris, Jing, Luan, Rita">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+
+    <title>upay</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/css/dropzone.css" rel="stylesheet">
+    <link href="/css/angular-datepicker.css" rel="stylesheet" type="text/css" />
+
+    <link rel="icon" href="/images/shopping-icon.png">
+
+    <!-- Custom Fonts -->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link href="/css/upay.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+</head>
+
+<body>
+    <div id="wrapper" ng-app="bc-upay" ng-controller="bc-upay-controller">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <logo></logo>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+
+                <li ng-if="['jku', 'rwang', 'fmusubidachi', 'cvaughan'].indexOf(currentUser.userName) != -1">
+                    <a href="#/todo">
+                        <i class="fa fa-list fa-fw"></i>&nbsp;To Do
+                    </a>
+                </li>
+                <li>
+                    <a href="#/help"><i class="fa fa-ra fa-fw"></i> Help</a>
+                </li>
+                <li>
+                    <a href="#/newListing" id="mnuProfile"><i class="fa fa-tasks fa-fw dim"></i><i class="fa fa-fw fa-plus shift-left"></i> New Listing</a>
+                </li>
+
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-user fa-fw"></i> {{ buildUserName(currentUser) }} <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#/profile/{{currentUser.userName}}" id="mnuProfile"><i class="fa fa-user fa-fw"></i> My Profile</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+
+            </ul>
+
+            <!-- /.navbar-top-links -->
+            <div class="col-lg-6 navbar-right">
+                <form class="navbar-form" role="search">
+                    <div class="input-group" style="width: 100%;">
+                        <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" ng-model="srchTerm" ng-keyup="$event.keyCode == 13 && search()">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="search()"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container-fluid" style="margin-top: 50px;">
+
+            <ng-view>
+
+            </ng-view>
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- /#wrapper -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadImageModelLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="uploadImageModelLabel">Upload Listing Images</h4>
+                </div>
+                <div class="modal-body">
+                    <section>
+                        <div id="dropzone" style="text-align: center;">
+                            Drop files inside the square or click the square to upload.<br /> <br />
+                            <form action="/upload" class="dropzone needsclick" id="upload" enctype="multipart/form-data">
+                                <input type="hidden" name="listingId" id="listingId" value="{{listingId}}" />
+                                <div class="dz-message needsclick">
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <script src="/js/sb-admin-2.js"></script>
+    <script src="/js/upay.js"></script>
+    <script src="/js/upay-purchase.js"></script>
+    <script src="/js/dropzone.js"></script>
+    <script src="/js/angular-input-masks-standalone.js"></script>
+    <script src="/js/moment.js"></script>
+    <script src="/js/moment-timezone-with-data.js"></script>
+    <script src="/js/angular-datepicker.js"></script>
+    <script src="/vendor/autonumeric/autonumeric.js"></script>
+    <script src="/vendor/jquery.payment/lib/jquery.payment.js"></script>
+    
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<div class="modal fade" id="galleryModal" tabindex="-1" role="dialog" aria-labelledby="galleryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="galleryModalLabel">Gallery</h4>
+            </div>
+            <div class="modal-body">
+                <div id="galleryCarousel" class="carousel slide">
+                    <!-- Carousel items -->
+                    <div class="carousel-inner">
+                        <div class="item" ng-class="{active:!$index}" ng-repeat="imgId in imageIds">
+                            <div class="row text-center">
+                                <div class="span3">
+                                    <div class="thumbnail product-item">
+                                        <img ng-src="/listingImage/{{imgId}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <h5 class='text-center'> {{$index+1}} of {{imageIds.length}}</h5>
+                        </div>
+                    </div>
+                    <!-- /INNER-->
+                    <div ng-if='imageIds.length > 1'>
+                        <!-- Carousel nav -->
+                        <a class="carousel-control left" href="#galleryCarousel" target="_self" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                        <a class="carousel-control right" href="#galleryCarousel" target="_self" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>  
+</div>

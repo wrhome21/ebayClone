@@ -1,0 +1,59 @@
+<div class="form-group">
+
+    <label>Payment Info</label>
+
+    <div class="well container-fluid">
+
+        <div class="row-fluid">
+
+            <div class="col-lg-9 col-md-10">
+
+                <div class="container-fluid">
+
+                    <div class="form-group row-fluid">
+                        <label for="ccNumber" class="col-form-label col-lg-4 col-md-6">Credit Card Number</label>
+                        <div class="col-lg-8 col-md-6">
+                            <input id="ccNumber" type="text" class="form-control" ng-model="paymentInfo.creditCardNumber" class="cc-number" placeholder="Credit Card Number" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row-fluid">
+                        <label for="ccType" class="col-form-label col-lg-4 col-md-6">Credit Card Type</label>
+                        <div class="col-lg-8 col-md-6">
+                            <input id="ccType" type="text" class="form-control" ng-model="paymentInfo.creditCardType" placeholder="Credit Card Type" maxlength="1" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row-fluid">
+                        <label for="ccExpires" class="col-form-label col-lg-4 col-md-6">Expires</label>
+                        <div class="col-lg-8 col-md-6">
+                            <input id="ccExpires" type="text" class="form-control" ng-model="paymentInfo.creditCardExpirationDate" class="cc-exp-date" placeholder="Credit Card Expiry" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row-fluid">
+                        <label for="ccCcv" class="col-form-label col-lg-4 col-md-6">CCV</label>
+                        <div class="col-lg-8 col-md-6">
+                            <input id="ccCcv" type="text" class="form-control" ng-model="paymentInfo.creditCardValidationCode" class="cc-val-code" placeholder="Credt Card Validation Code"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row-fluid">
+                        <label for="ccBillingName" class="col-form-label col-lg-4 col-md-6">Billing Name</label>
+                        <div class="col-lg-8 col-md-6">
+                            <input id='ccBillingName' type="text" class="form-control" ng-model="paymentInfo.billing.name" />
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-2">
+                <img class="cc-image" src="/images/credit_cards.png" />
+            </div>
+
+        </div>
+
+    </div>
+</div>

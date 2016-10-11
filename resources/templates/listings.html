@@ -1,0 +1,117 @@
+<div class="row-fluid">
+  <div class="col-lg-2">
+
+    <div class="panel panel-primary">
+      <div class="panel-heading panel-title">
+        Sort
+      </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <select ng-model="sortedList" target='_self' data-ng-change="sortListing(sortedList)" class="form-control" ng-init='sortedList = sortedLists[0].key'>
+            <option ng-repeat="option in sortedLists" value="{{option.key}}" >{{option.value}}</option> 
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-primary">
+
+      <div class="panel-heading panel-title">
+        Keywords
+      </div>
+
+      <div class="panel-body">
+
+        <div ng-if="activeKeyword" class="alert alert-danger alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="resetKeywords()" title="Remove Filer">&times;</button>
+          Showing listings with keyword "{{activeKeyword}}"
+        </div>
+
+        <div ng-repeat="keyword in keywords" class="alert alert-info alert-dismissable keyword">
+          <!-- remove filter -->    
+          
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="removeFilter(keyword)" title='Remove listings with keyword "{{keyword}}"'>&times;</button>
+          <!-- add filter -->
+          <!-- alert('filter the list on this keyword'); return false; -->
+          <a ng-click="filterOn(keyword)" target='_self' class="alert-link" name="filter-On-Term" id="filter-On-Term" ng-model="filterOnTerm">{{ keyword }}</a>
+          
+        </div>
+
+      </div>
+
+    </div>
+    <!-- relavence(default) , alpha , price asc , price desc , enddate -->
+
+
+  </div>
+  <div class="col-lg-8">
+    <!-- styling for list items -->
+    <div ng-repeat="listing in listings" class="panel panel-default">
+
+      <div class="panel-body">
+
+        <div class="container-fluid">
+          <div class="row-fluid">
+
+            <div class="col-lg-2">
+              <a ng-click="displayGallery(listing.imageIds)">
+                <img ng-if="listing.imageIds && listing.imageIds.length" ng-src="/listingImage/{{listing.imageIds[0]}}" />
+              </a>
+              <gallery data="imageIds"></gallery>
+              <span ng-if="!listing.imageIds || !listing.imageIds.length">No image available</span>
+            </div>
+
+            <div class="col-lg-8">
+              <p><a ng-href="#/listing/{{listing.listingId}}" class="listing-title">
+            {{listing.title}}
+          </a></p>
+              <p>{{ listing.description }}</p>
+              <p>Buy it now price: <span class="listing-price">{{ listing.buyItNowPrice | currency }}</span></p>
+              <p ng-if="listing.minBid">
+                <span ng-if="listing.maxBid">Current Max Bid: <span class="listing-maxbid">{{ listing.maxBid | currency }}</span></span>
+                <span ng-if="!listing.maxBid">Minimum Bid: <span class="listing-minbid">{{ listing.minBid | currency }}</span></span>
+              </p>
+              <p>Ends {{ listing.endDate | date:"M/dd/yyyy h:mm a" }}</p>
+              <p>
+                          Being sold by
+                          <a ng-click="displaySeller(listing.user.userName)">
+                      {{ listing.user.firstName }} {{ listing.user.lastName }}
+                      <img ng-if="listing.user.userImageId" ng-src="/userImage/{{ listing.user.userName }}" width="40px;" alt="Seller Avatar" class="img-circle" />
+                  </a>
+              </p>
+               <seller-info ng-if="seller" info="seller"></seller-info>
+            </div>
+
+            <div class="col-lg-2">
+              <a ng-if="currentUser.userName != listing.user.userName" class="btn btn-primary btn-block" ng-href="#/purchase/{{listing.listingId}}"><i class="fa fa-check"></i> &nbsp; Buy Now</a>
+              <button ng-if="listing.minBid && currentUser.userName != listing.user.userName" class="btn btn-default btn-block" ng-click="makeBid(listing)">Bid</button>
+              <a ng-if="currentUser.userName === listing.user.userName" href="#/updateListing/{{listing.listingId}}" class='btn btn-success btn-outline btn-block'>Update Listing</a>
+            </div>
+          </div>
+          <!-- /row-fluid -->
+        </div>
+        <!-- /container-fluid -->
+      </div>
+      <!-- /panel-body -->
+    </div>
+    <!-- /panel -->
+  </div>
+  <!-- /col-lg-8 -->
+
+  <div class="col-lg-2">
+    <!-- Gutter for ads -->
+    <ad-panel data="{{ adId }}"></ad-panel>
+    
+  </div>
+
+</div>
+
+<bid-modal listing="bidListing"></bid-modal>
+
+<!--        <select onchange="sort(this.value)">
+          <option value="Relevance">Relevance </option>
+          <option value="ascABC">Alphabetical Ascending</option>
+          <option value="descABC">Alphabetical Descending</option>
+          <option value="ascPRICE">Price Ascending</option>
+          <option value="descPRICE">Price Descending</option>
+        </select>

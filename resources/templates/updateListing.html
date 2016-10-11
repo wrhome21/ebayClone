@@ -1,0 +1,144 @@
+<div class="row-fluid">
+
+    <div class="col-lg-12">
+
+        <!-- Panel -->
+        <div class="panel panel-default">
+
+            <!-- Panel Heading -->
+            <div class="panel-heading">
+                Update Listing
+            </div>
+            <!-- /Panel Heading -->
+
+            <!-- Panel Body -->
+            <div class="panel-body">
+
+                <div class="alert-group" ng-hide="successfulAlert">
+                    <div class="alert alert-success">
+                        Listing has been updated successfully!
+                    </div>
+                </div>
+
+                <form role="form" name="updateListingForm">
+
+                    <div class="row-fluid">
+
+                        <!-- Tab panes -->
+                        <div class="col-lg-5 col-sm-6">
+
+                            <span ng-if="!myListing.imageIds || !myListing.imageIds.length">No images available</span>
+
+                            <div ng-if="myListing.imageIds && myListing.imageIds.length" id="myCarousel" class="carousel slide">
+                                <!-- Carousel items -->
+                                <div class="carousel-inner">
+                                    <div class="item" ng-class="{active:!$index}" ng-repeat="imgId in myListing.imageIds">
+                                        <a ng-click="displayGallery(myListing.imageIds)">
+                                            <div class="row text-center">
+                                                <!-- ITEM-->
+                                                <div class="span3">
+                                                    <div class="thumbnail product-item">
+                                                        <img ng-src="/listingImage/{{imgId}}">
+                                                    </div>
+                                                </div>
+                                                <!-- ITEM-->
+                                            </div>
+                                        </a>
+                                        <h5 class='text-center'> {{$index+1}} of {{myListing.imageIds.length}}</h5>
+                                    </div>
+                                    <gallery data="imageIds"></gallery>
+                                </div>
+                                <!-- /INNER-->
+                                <!-- Carousel nav -->
+                                <a class="carousel-control left" href="#myCarousel" target="_self" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                                <a class="carousel-control right" href="#myCarousel" target="_self" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-5 col-sm-6">
+
+                            <div class="form-group">
+                                <label>Title</label>
+                                <input class="form-control" id="title" name="title" maxlength="50" ng-model="myListing.title" autofocus required>
+                                <span style="color:red" ng-show="updateListingForm.title.$dirty && updateListingForm.title.$invalid">
+                                    <span ng-show="updateListingForm.title.$error.required">Title is required.</span>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="form-control" id="description" name="description" ng-model="myListing.description" rows="8" cols="50"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Buy It Now Price</label>
+                                <input type="text" class="form-control" id="buyItNowPrice" name="buyItNowPrice" placeholder="Buy it now price" ng-model="myListing.buyItNowPrice"
+                                    ui-money-mask />
+                            </div>
+                            <div class="form-group">
+                                <label>Minimum Bid</label>
+                                <input type="text" class="form-control" id="minBid" name="minBid" placeholder="Minimum Bid" ng-model="myListing.minBid" ui-money-mask
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label>Start Date</label>
+                                <input class="form-control" id="startDate" name="startDate" ng-model="myListing.startDate" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>End Date</label>
+                                <input class="form-control" id="endDate" name="endDate" ng-model="myListing.endDate" />
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+
+                            <div>
+
+                                <button type="button" id="updateListingButton" ng-click="updateListing()" class="btn btn-primary btn-block" ng-disabled="updateListingForm.title.$dirty && updateListingForm.title.$invalid">
+                                    <i class="fa fa-check"></i>&nbsp;Save
+                                </button>
+
+                                <a ng-click="uploadListingFiles(myListing.listingId)" class='btn btn-success btn-outline btn-block'>Upload Images</a>
+
+                            </div>
+
+                            <div class="panel panel-primary" style="margin-top:20px;">
+
+                                <div class="panel-heading panel-title">
+                                    <div class="input-group" style="width: 100%;">
+                                        <input type="text" class="form-control" placeholder="Keyword" name="newKeyword" id="newKeyword" 
+                                                ng-model="newKeyword">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" type="button" ng-click="addKeyword()"><i class="glyphicon glyphicon-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+
+                                    <div ng-repeat="keyword in myListing.keywords" class="alert alert-info alert-dismissable keyword">
+                                        <!-- remove keyword -->
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="removeKeyword(keyword)" title='Remove keyword "{{keyword}}"'>&times;</button>                                        {{ keyword }}
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                </form>
+
+                </div>
+                <!-- /panel-body -->
+
+            </div>
+            <!-- /Panel -->
+
+
+        </div>
+        <!-- /col-lg-12 -->
+
+    </div>
+    <!-- /row-fluid -->

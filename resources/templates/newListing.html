@@ -1,0 +1,83 @@
+<div class="row-fluid">
+
+    <div class="col-lg-12">
+
+        <!-- Panel -->
+        <div class="panel panel-default">
+
+            <!-- Panel Heading -->
+            <div class="panel-heading">
+                New Listing
+            </div>
+            <!-- /Panel Heading -->
+
+             <!-- Panel Body -->
+            <div class="panel-body">
+                
+                <form role="form" name="newListingForm">
+
+                     <div class="row-fluid">
+
+                        <!-- Tab panes -->
+                        <div class="col-lg-5 col-sm-6">
+
+                            <div class="form-group">
+                                <label>Title</label>
+                                <input class="form-control" id="title" name="title" maxlength="50" ng-model="newListing.title" autofocus required>
+                                <span style="color:red" ng-show="newListingForm.title.$dirty && newListingForm.title.$invalid">
+                                    <span ng-show="newListingForm.title.$error.required">Title is required.</span>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="form-control" id="description" name="description" ng-model="newListing.description" rows="8" cols="50"></textarea>
+                            </div>                          
+
+                        </div>
+
+                        <div class="col-lg-5 col-sm-6">
+
+                            <div class="form-group">
+                                <label>Buy It Now Price</label>
+                                <input type="text" class="form-control" id="buyItNowPrice" name="buyItNowPrice" placeholder="Buy it now price" ng-model="newListing.buyItNowPrice" ui-money-mask />
+                            </div>
+                            <div class="form-group">
+                                <label>Minimum Bid</label>
+                                <input type="text" class="form-control" id="minBid" name="minBid" placeholder="Minimum Bid" ng-model="newListing.minBid" ui-money-mask />
+                            </div>
+                            <div class="form-group">
+                                <label>Start Date</label>
+                                <input class="form-control" id="startDate" name="startDate" ng-model="newListing.startDate" />
+                            </div>
+                            <div class="form-group">
+                                <label>End Date</label>
+                                <input class="form-control" id="endDate" name="endDate" ng-model="newListing.endDate"/>
+                            </div>
+
+                        </div>
+
+                       <div class="col-lg-2 col-sm-6">
+
+                            <button type="button" id="addNewListingButton" ng-click="addNewListing()" class="btn btn-primary btn-block"
+                                    ng-disabled="newListingForm.title.$untouched || newListingForm.title.$dirty && newListingForm.title.$invalid">
+                                <i class="fa fa-check"></i>&nbsp;Save
+                            </button>
+
+                       </div>
+
+                     </div>
+
+                </form>
+
+               </div>
+            <!-- /panel-body -->
+        
+        </div>
+        <!-- /Panel -->
+
+
+    </div>
+    <!-- /col-lg-12 -->
+
+</div>
+<!-- /row-fluid -->

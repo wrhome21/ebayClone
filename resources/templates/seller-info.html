@@ -1,0 +1,54 @@
+<!-- Modal -->
+<div class="modal fade" id="sellerInfoModal" tabindex="-1" role="dialog" aria-labelledby="sellerInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="sellerInfoModalLabel">Seller Information</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="col-lg-4">
+                            <img ng-if="seller.imageId" ng-src="/userImage/{{seller.sellerId}}" class="img-circle" />
+                            <span ng-if="!seller.imageId">No image available</span>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="form-set">
+                                <label>Name</label>
+                                <p class="form-control-static">{{ seller.name }}</p>
+                            </div>
+                            <div class="form-set">
+                                <label>E-mail Address</label>
+                                <p class="form-control-static">{{ seller.email }}</p>
+                            </div>
+                            <div class="form-set">
+                                <label>Location</label>
+                                <p class="form-control-static">{{ seller.city }}, {{seller.state }}</p>
+                            </div>
+                            <div class="form-set">
+                                <label>Since</label>
+                                <p class="form-control-static">{{ seller.sinceDate.format('M/dd/yyyy h:mm ap') }}</p>
+                            </div>
+                            <div class="form-set">
+                                <label>Total Sales</label>
+                                <p class="form-control-static">{{ seller.totalSales | currency }}</p>
+                            </div>
+                            <div class="form-set">
+                                <label>Average Rating</label>
+                                <p class="form-control-static">{{ seller.averageRating }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>            
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+

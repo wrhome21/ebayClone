@@ -1,0 +1,51 @@
+<div class="row-fluid">
+  <div class="col-lg-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading fa-2x">{{listing.title}}</div>
+      <div class="panel-body">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        
+        <ol class="carousel-indicators">
+           <div ng-repeat="imgId in listing.imageIds">  
+                <li data-target="#myCarousel" data-slide-to="0" class="active" ng-if="$index == 0"></li>
+                <li data-target="#myCarousel" data-slide-to="$index" ng-if="$index != 0"></li>
+          </div>  
+        </ol>
+          <div class="carousel-inner" role="listbox">
+            <div ng-repeat="imgId in listing.imageIds">  
+                
+                <div class="item active" ng-if="$index == 0">
+                  <img ng-src="/images/{{imgId}}">
+                </div>
+
+                <div class="item" ng-if="$index != 0">
+                  <img ng-src="/images/{{imgId}}">
+                </div>
+          </div>  
+        </div>
+        
+        <a class="left carousel-control" target="_self" href="#myCarousel" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" target="_self" href="#myCarousel" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+        <div class="text-info">Seller : {{listing.user.userName}}</div>
+        <!--<div class="text-muted">Id: {{listing.listingId}}</div>-->
+        <div class="text-info">Description {{listing.description}}</div>
+        <div class="text-primary">Buy it Now Price {{listing.buyItNowPrice}}</div>
+        <div class="text-warning">Minimum bid Price {{listing.minBid}}</div>
+        <div class="text-warning">End date : {{listing.endDate}}</div>
+        <div class="text-warning">{{listing.sold}}</div>
+        <div class="text-info">Keywords : {{listing.keywords}}</div>
+        <div>
+              <div><a href="/" class="btn btn-outline btn-primary" style="float:left;">Go back</a></div>
+              <div><a ng-ref="#/purchase/{{listing.listingId}}" class="btn btn-outline btn-success" style="float:right;"> Buy now ! </a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
